@@ -1,5 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
+import Postbox from './Postbox';
+import Postbox2 from './Postbox2';
+import Hoverbox from './hoverbox/Hoverbox';
 
 function App() {
   return (
@@ -18,6 +21,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <Hoverbox />
     </div>
   );
 }

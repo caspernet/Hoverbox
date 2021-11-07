@@ -1,0 +1,29 @@
+.form--text_field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0rem;
+  align-items: stretch;
+  gap: 1rem;
+  font-size: 2rem;
+}
+.form--text_field input {
+  padding: 1.3rem 1rem;
+  border: 1px solid #000000;
+  transition: 0.3s;
+}
+.form--text_field input::placeholder {
+  text-transform: capitalize;
+}
+.form--text_field input:focus {
+  outline: 0;
+  box-shadow: inset 0px -4px 0px #000d23;
+}
+.form--text_field .invalid {
+  border-color: red;
+  box-shadow: inset 0px -2px 0px red;
+}
+.form--text_field .invalid:focus {
+  box-shadow: inset 0px -4px 0px red;
+}
