@@ -42,8 +42,9 @@ const useDragExpander = ({ min, max }) => {
     []
   );
 
-  const onDragMouseDown = (e, boxHeight) => {
-    console.log('onDragMouseDown: ', boxHeight);
+  const onDragMouseDown = (boxHeight, e) => {
+    console.log('onDragMouseDown: e', e);
+    console.log('onDragMouseDown: boxHeight', boxHeight);
     if (e.button != 0) return; // only allow left-mouse clicks
     e.preventDefault();
     initialPos.current = e.screenY; // re-set initial position
@@ -87,7 +88,7 @@ function Gripple({ boxHeightCallback, currentBoxHeight }) {
     min: 300,
     max: 1000,
   });
-  console.log('currentBoxHeight', currentBoxHeight);
+  console.log('Gripple() currentBoxHeight', currentBoxHeight);
   let dragHeight = limitDragRange(dragState.delta);
   useEffect(() => boxHeightCallback(dragHeight), [dragHeight]);
 
@@ -98,7 +99,7 @@ function Gripple({ boxHeightCallback, currentBoxHeight }) {
       onMouseDown={onDragMouseDown.bind(this, currentBoxHeight)}
       // limitDragRange(dragState.delta)
     >
-      <p>{limitDragRange(dragState.delta)}</p>
+      {/* <p>{limitDragRange(dragState.delta)}</p> */}
       <div></div>
       <div></div>
     </div>
@@ -154,7 +155,7 @@ export default class Hoverbox extends Component {
   // };
   getBoxHeight = (newBoxHeight) => {
     this.setState({ boxHeight: newBoxHeight });
-    console.log('this.state.boxHeight', this.state.boxHeight);
+    console.log('getBoxHeight() this.state.boxHeight', this.state.boxHeight);
   };
 
   render() {
