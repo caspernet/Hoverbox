@@ -9,7 +9,6 @@ import 'react-quill/dist/quill.snow.css';
 import 'quill-emoji/dist/quill-emoji.css';
 import './Hoverbox.css';
 import './TextField.css';
-// import 'normalize.css';
 
 var Block = Quill.import('blots/block');
 Block.tagName = 'p';
@@ -141,7 +140,7 @@ export default class Hoverbox extends Component {
       // <ResizePanel direction="s" style={{ height: '200px' }}>
       <section
         className="hoverbox"
-        style={{ minHeight: `${this.state.boxHeight}px` }}
+        // style={{ minHeight: `${this.state.boxHeight}px` }}
       >
         <Gripple
           boxHeightCallback={this.getBoxHeight}
@@ -190,6 +189,8 @@ export default class Hoverbox extends Component {
                   'emoji-shortname': true,
                 }}
                 placeholder={'Compose an epic...'}
+                bounds={'#parent'}
+                theme={'snow'}
               />
             </section>
             <div className="control-area">

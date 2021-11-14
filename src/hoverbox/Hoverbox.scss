@@ -54,7 +54,7 @@ body {
     gap: 5px;
     align-items: stretch;
     outline: 2px solid red;
-    height: var(--form-area-height);
+    // height: var(--form-area-height);
 
     .title-categery {
       display: flex;
@@ -78,7 +78,7 @@ body {
     .quill__wrapper {
       display: flex;
       font-family: Helvetica, Arial, sans-serif;
-      height: 100%;
+      height: var(--form-area-height);
       align-self: stretch;
 
       .quill-editor {

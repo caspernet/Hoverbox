@@ -50,7 +50,6 @@ body {
   gap: 5px;
   align-items: stretch;
   outline: 2px solid red;
-  height: var(--form-area-height);
 }
 .box-area .form-area .title-categery {
   display: flex;
@@ -70,7 +69,7 @@ body {
 .box-area .form-area .quill__wrapper {
   display: flex;
   font-family: Helvetica, Arial, sans-serif;
-  height: 100%;
+  height: var(--form-area-height);
   align-self: stretch;
 }
 .box-area .form-area .quill__wrapper .quill-editor {
