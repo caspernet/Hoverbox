@@ -4,6 +4,11 @@ body {
   --primary-focus-color: #4078c0;
 }
 
+#root {
+  $ql-editor-height: 128px;
+  $form-area-height: 170px;
+}
+
 .hoverbox {
   justify-self: center;
   position: fixed;
@@ -12,7 +17,7 @@ body {
   justify-content: stretch;
   bottom: 0;
   min-height: 300px; /* KEY value */
-  margin: 0 auto;
+  margin: 5px auto;
   max-width: 1475px; /* KEY value */
   z-index: 400;
   transition: height 250ms ease, background 250ms ease, transform 250ms ease,
@@ -22,7 +27,7 @@ body {
 }
 
 .gripple {
-  background-color: #24292e;
+  background-color: #383535;
   cursor: row-resize;
   padding: 3px 0;
   display: block;
@@ -40,8 +45,6 @@ body {
   gap: 15px;
   padding: 5px 15px;
   box-sizing: border-box;
-  max-height: 300px; /* KEY value */
-  /* flex-flow: row wrap; */
 
   .form-area {
     flex: 1;
@@ -51,6 +54,7 @@ body {
     gap: 5px;
     align-items: stretch;
     outline: 2px solid red;
+    height: var(--form-area-height);
 
     .title-categery {
       display: flex;
@@ -72,14 +76,18 @@ body {
     }
 
     .quill__wrapper {
+      display: flex;
       font-family: Helvetica, Arial, sans-serif;
-      height: calc(100% - 100px);
+      height: 100%;
+      align-self: stretch;
 
       .quill-editor {
         display: flex;
+        align-self: stretch;
         flex-direction: column;
-        height: 100%;
-        resize: none;
+        // width: 100%;
+        overflow-wrap: break-word;
+        overflow-y: hidden;
       }
     }
 

@@ -9,6 +9,11 @@ import 'react-quill/dist/quill.snow.css';
 import 'quill-emoji/dist/quill-emoji.css';
 import './Hoverbox.css';
 import './TextField.css';
+// import 'normalize.css';
+
+var Block = Quill.import('blots/block');
+Block.tagName = 'p';
+Quill.register(Block);
 
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('modules/emoji', Emoji);
@@ -61,7 +66,10 @@ const useDragExpander = ({ min, max }) => {
     window.addEventListener('mousemove', onDragMove);
   };
 
-  const onDragMove = useCallback((e) => update(e.screenY), []);
+  const onDragMove = useCallback(
+    (e) => update(e.screenY >= 0 ? e.screenY : 0),
+    []
+  );
 
   const unbind = () => {
     clearTimeout(timer.current);
@@ -86,48 +94,30 @@ const useDragExpander = ({ min, max }) => {
 function Gripple({ boxHeightCallback, currentBoxHeight }) {
   const { onDragMouseDown, dragState, limitDragRange } = useDragExpander({
     min: 300,
-    max: 1000,
+    max: window.innerHeight,
   });
   console.log('Gripple() currentBoxHeight', currentBoxHeight);
   let dragHeight = limitDragRange(dragState.delta);
-  useEffect(() => boxHeightCallback(dragHeight), [dragHeight]);
+  useEffect(() => {
+    boxHeightCallback(dragHeight); // update grippler box height
+    const root = document.documentElement; // update ql-editor height css variable
+    // root?.style.setProperty('--ql-editor-height', `${dragHeight - 123}px`);
+    root?.style.setProperty('--form-area-height', `${dragHeight - 3}px`);
+    const h = root?.style.getPropertyValue('--form-area-height');
+    console.log('Gripple() --form-area-height', h);
+  }, [dragHeight]);
 
   // render-props method: get currently viewed section while scrolling:
   return (
     <div
       className="gripple"
       onMouseDown={onDragMouseDown.bind(this, currentBoxHeight)}
-      // limitDragRange(dragState.delta)
     >
-      {/* <p>{limitDragRange(dragState.delta)}</p> */}
       <div></div>
       <div></div>
     </div>
   );
 }
-
-// class Gripple2 extends Component {
-//   const { onDragMouseDown, dragState, limitDragRange } = useDragExpander({
-//     min: 50,
-//     max: 200,
-//   });
-
-//   // render-props method: get currently viewed section while scrolling:
-//   this.props.getBoxHeight = dragState.delta;
-//   render() {
-//   return (
-//     <div
-//       className="gripple"
-//       onMouseDown={onDragMouseDown}
-//       // limitDragRange(dragState.delta)
-//     >
-//       <p>{limitDragRange(dragState.delta)}</p>
-//       <div></div>
-//       <div></div>
-//     </div>
-//   );
-//   }
-// }
 
 export default class Hoverbox extends Component {
   constructor(props) {
@@ -139,20 +129,6 @@ export default class Hoverbox extends Component {
     };
   }
 
-  // adjustHeight = (e) => {
-  //   const { onAdjustHeight } = this.state;
-  //   if (onAdjustHeight) {
-  //     // const { boxHeight } = this.state;
-  //     const { innerWidth: width, innerHeight: height } = window;
-  //     this.setState({
-  //       boxHeight: height - e.clientY,
-  //     });
-  //     console.log(e);
-  //     console.log('innerHeight = ', height);
-  //     console.log('e.clientY = ', e.clientY);
-  //     console.log('boxHeight = ', this.state.boxHeight);
-  //   }
-  // };
   getBoxHeight = (newBoxHeight) => {
     this.setState({ boxHeight: newBoxHeight });
     console.log('getBoxHeight() this.state.boxHeight', this.state.boxHeight);
@@ -167,16 +143,6 @@ export default class Hoverbox extends Component {
         className="hoverbox"
         style={{ minHeight: `${this.state.boxHeight}px` }}
       >
-        {/* <div
-          className="gripple"
-          // onMouseDown={this.setState({ onAdjustHeight: true })}
-          onMouseMove={(e) => this.adjustHeight(e)}
-          // onMouseUp={this.setState({ onAdjustHeight: false })}
-        >
-          <div></div>
-          <div></div>
-        </div> */}
-
         <Gripple
           boxHeightCallback={this.getBoxHeight}
           currentBoxHeight={this.state.boxHeight}
