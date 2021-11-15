@@ -24,6 +24,22 @@ body {
     max-width 250ms ease, padding-bottom 250ms ease;
   background-color: white;
   box-shadow: 0 -1px 40px rgba(0, 0, 0, 0.12);
+
+  &--hidden {
+    position: fixed;
+    display: flex;
+    min-height: 5px;
+    bottom: 0;
+    box-shadow: 0 -1px 40px rgba(0, 0, 0, 0.12);
+    transition: 20ms;
+  }
+
+  .boxResumer {
+    &--hidden {
+      display: none;
+      transition: 20ms;
+    }
+  }
 }
 
 .gripple {
@@ -34,7 +50,7 @@ body {
 }
 
 .gripple > div {
-  width: 20px;
+  width: 2%;
   border-top: 1px solid lightgrey;
   padding-top: 1px;
   margin: 0 auto;
@@ -45,6 +61,11 @@ body {
   gap: 15px;
   padding: 5px 15px;
   box-sizing: border-box;
+
+  &--hidden {
+    display: none;
+    transition: 20ms;
+  }
 
   .form-area {
     flex: 1;
@@ -95,6 +116,14 @@ body {
       display: flex;
       gap: 10px;
       padding: 5px 0;
+
+      .button-label {
+        margin-left: 6px;
+      }
+
+      .tooglePreview {
+        float: right;
+      }
     }
   }
 
@@ -106,10 +135,11 @@ body {
 
     &--hidden {
       display: none;
+      transition: 20ms;
     }
 
     .preview-box {
-      height: 305px;
+      height: calc(var(--form-area-height) + 95px);
       /* width: 100px; */
       overflow-y: scroll;
       display: block;

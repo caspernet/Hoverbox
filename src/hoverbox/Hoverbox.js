@@ -3,8 +3,13 @@ import ReactQuill, { Quill } from 'react-quill';
 import * as Emoji from 'quill-emoji';
 import ImageResize from 'quill-image-resize-module-react';
 import parse from 'html-react-parser';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  FaPlus,
+  FaChevronLeft,
+  FaChevronRight,
+  FaChevronUp,
+  FaChevronDown,
+} from 'react-icons/fa';
 import 'react-quill/dist/quill.snow.css';
 import 'quill-emoji/dist/quill-emoji.css';
 import './Hoverbox.css';
@@ -125,6 +130,8 @@ export default class Hoverbox extends Component {
       text: '',
       boxHeight: 500,
       onAdjustHeight: true,
+      previewOpened: false,
+      boxMinimised: false,
     };
   }
 
@@ -133,20 +140,52 @@ export default class Hoverbox extends Component {
     console.log('getBoxHeight() this.state.boxHeight', this.state.boxHeight);
   };
 
+  tooglePreview = (e) => {
+    e.preventDefault();
+    this.setState({ previewOpened: !this.state.previewOpened });
+    console.log(
+      'tooglePreview() this.state.previewOpened',
+      this.state.previewOpened
+    );
+  };
+
+  toogleBoxMinimiser = (e) => {
+    e.preventDefault();
+    this.setState({ boxMinimised: !this.state.boxMinimised });
+    console.log(
+      'toogleBoxMinimiser() this.state.boxMinimised',
+      this.state.boxMinimised
+    );
+  };
+
   render() {
     const { text } = this.state;
 
     return (
       // <ResizePanel direction="s" style={{ height: '200px' }}>
       <section
-        className="hoverbox"
+        className={!this.state.boxMinimised ? 'hoverbox' : 'hoverbox--hidden'}
         // style={{ minHeight: `${this.state.boxHeight}px` }}
       >
         <Gripple
           boxHeightCallback={this.getBoxHeight}
           currentBoxHeight={this.state.boxHeight}
         />
-        <div className="box-area">
+        {/* Box Minimise Button */}
+        <button
+          onClick={this.toogleBoxMinimiser}
+          className={
+            this.state.boxMinimised
+              ? 'btn boxResumer'
+              : 'btn boxResumer--hidden'
+          }
+        >
+          {/* btn btn-secondary */}
+          {this.state.boxMinimised ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
+        <div
+          className={!this.state.boxMinimised ? 'box-area' : 'box-area--hidden'}
+        >
           <div className="form-area">
             {/* post-editer */}
             <div className="reply-area">
@@ -197,10 +236,11 @@ export default class Hoverbox extends Component {
               {/* post-editer__controll */}
               <button className="btn btn-primary submit">
                 {/* btn btn-primary */}
-                <FontAwesomeIcon className="btn-icon" icon={faPlus} />
+                <FaPlus />
                 <span className="button-label">Create Topic</span>
                 {/* <FontAwesomeIcon icon="check-square" /> */}
               </button>
+
               <button
                 onClick={console.log('Cancel Event.')}
                 className="btn cancel"
@@ -208,10 +248,36 @@ export default class Hoverbox extends Component {
                 {/* btn btn-secondary */}
                 Cancel
               </button>
+
+              {/* Box Minimise Button */}
+              <button
+                onClick={this.toogleBoxMinimiser}
+                className="btn boxMinimiser"
+              >
+                {/* btn btn-secondary */}
+                {this.state.boxMinimised ? <FaChevronUp /> : <FaChevronDown />}
+              </button>
+
+              {/* Preview Toogle Button */}
+              <button
+                onClick={this.tooglePreview}
+                className="btn tooglePreview"
+              >
+                {/* btn btn-secondary */}
+                {this.state.previewOpened ? (
+                  <FaChevronRight />
+                ) : (
+                  <FaChevronLeft />
+                )}
+              </button>
             </div>
           </div>
           <div
-            className={text === '' ? 'preview-area--hidden' : 'preview-area'}
+            className={
+              !this.state.previewOpened
+                ? 'preview-area--hidden'
+                : 'preview-area'
+            }
           >
             <div className="preview-box">{parse(text)}</div>
           </div>
